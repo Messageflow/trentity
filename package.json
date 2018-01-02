@@ -1,11 +1,12 @@
 {
-  "name": "trentity",
+  "name": "@messageflow/trentity",
   "version": "0.0.0",
   "private": true,
   "description": "Train your Dialogflow with better entities in simple way",
   "keywords": [
-    "trentity",
+    "messageflow",
     "node",
+    "trentity",
     "typescript"
   ],
   "homepage": "https://github.com/Messageflow/trentity",
