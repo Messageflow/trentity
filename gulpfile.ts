@@ -13,7 +13,7 @@ import * as tslint from 'tslint';
 const isProd = process.env.NODE_ENV === 'production';
 const SRC = 'src';
 const TMP = '.tmp';
-const DIST = '.';
+const DIST = 'dist';
 const IGNORE_DIR = [
   `${SRC}/demo`,
 ];
@@ -26,7 +26,7 @@ const BABELRC = {
           node: 'current',
         },
         spec: true,
-        modules: 'commonjs',
+        modules: false,
         useBuiltIns: true,
       },
     ],
@@ -83,6 +83,7 @@ gulp.task('babel', () =>
 
 gulp.task('clean', () => del([
   TMP,
+  DIST,
   '*.js',
   '*.jsx',
   '*.d.ts*',
@@ -96,6 +97,8 @@ gulp.task('clear', () => del([
 ]));
 
 gulp.task('copy', () => gulp.src([
+  `${SRC}/**/*.js`,
+  `${SRC}/**/*.html`,
   `${TMP}/**/*`,
   `!${TMP}/**/*.js`,
 ])

@@ -26,6 +26,7 @@
     "build:debug": "npm run ts && gulp build && npm run cleanup",
     "check": "npm run lint && npm run nsp",
     "cleanup": "rm -rf gulpfile.js",
+    "debug": "cross-env PORT=3000 node -r @std/esm --max-old-space-size=8291 ./dist/server.js",
     "gulp": "npm run ts && gulp",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:fix": "tslint -p . -c tslint.json --fix",
@@ -33,8 +34,14 @@
     "prepublishOnly": "npm run check && npm run build",
     "ts": "tsc --target esnext --lib esnext,esnext.asynciterable --module commonjs gulpfile.ts"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@std/esm": "^0.19.1",
+    "express": "^4.16.2",
+    "lit-html": "^0.7.1",
+    "monaco-editor": "^0.10.1"
+  },
   "devDependencies": {
+    "@types/express": "^4.11.0",
     "@types/node": "^8.0.57",
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-function-bind": "^6.22.0",
