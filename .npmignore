@@ -13,7 +13,7 @@ yarn-error.log*
 
 # folders
 ./test*/
-dist*/
+./dist*/
 demo*/
 node_modules/
 
