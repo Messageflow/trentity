@@ -79,8 +79,8 @@
 
               theme: 'vs-dark',
           };
-          const synonymsEditor = document.querySelector('.editor--synonyms');
-          const replacersEditor = document.querySelector('.editor--replacers');
+          const synonymsEditor = document.querySelector('.editor--synonyms > .editor-container');
+          const replacersEditor = document.querySelector('.editor--replacers > .editor-container');
 
           const monacoSynonymsEditor = monaco.editor.create(synonymsEditor, editorConfig);
           const monacoReplacersEditor = monaco.editor.create(replacersEditor, editorConfig);
@@ -131,25 +131,42 @@
         height: 100%;
       }
 
-      .editor-container {
+      .editor-section {
         display: grid;
-        grid-template-columns: repeat(2, minmax(calc(50% - 16px), 1fr));
+        grid-template-columns: repeat(2, minmax(calc(50% - 16px - 24px * 2), 1fr));
         grid-template-rows: minmax(400px, 1fr);
         grid-column-gap: 16px;
 
-        padding: 16px 0;
+        padding: 16px 24px;
       }
-      .editor-container > div {
+      .editor--synonyms,
+      .editor--replacers,
+      .editor-container {
         width: 100%;
         height: 100%;
+      }
+      .editor--synonyms,
+      .editor--replacers {
+        display: grid;
+        grid-template-rows: auto minmax(400px, 1fr);
+      }
+      .editor--synonyms > h2,
+      .editor--replacers > h2 {
+        font-size: 18px;
       }
     </style>
 
     <trentity-app>
-      <div class="editor-container">
-        <div class="editor--synonyms"></div>
-        <div class="editor--replacers"></div>
-      </div>
+      <section class="editor-section">
+        <div class="editor--synonyms">
+          <h2>Synonyms</h2>
+          <div class="editor-container"></div>
+        </div>
+        <div class="editor--replacers">
+          <h2>Replacers</h2>
+          <div class="editor-container"></div>
+        </div>
+      </section>
     </trentity-app>
   </body>
 </html>

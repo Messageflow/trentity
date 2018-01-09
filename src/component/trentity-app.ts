@@ -56,7 +56,7 @@ export class TrentityApp extends HTMLElement {
           height: 100%;
         }
 
-        ::slotted(.editor-container) {
+        ::slotted(*) {
           width: 100%;
           height: 100%;
         }
