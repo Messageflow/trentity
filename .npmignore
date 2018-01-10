@@ -12,7 +12,7 @@ npm-debug.log*
 yarn-error.log*
 
 # folders
-./test*/
+test*/
 dist*/
 demo*/
 node_modules/

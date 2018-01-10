@@ -12,7 +12,7 @@ npm-debug.log*
 yarn-error.log*
 
 # folders
-./test*/
+test*/
 dist*/
 demo*/
 node_modules/
@@ -22,3 +22,7 @@ node_modules/
 *.jsx
 *.d.ts*
 gulpfile*.js
+
+# Don't ignore files
+!src/**/*.js
+!src/**/*.jsx
