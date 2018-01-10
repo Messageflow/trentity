@@ -52,8 +52,8 @@ export class TrentityApp extends HTMLElement {
         }
 
         main {
-          width: 100%;
-          height: 100%;
+          display: grid;
+          grid-template-rows: repeat(2, minmax(400px, 1fr));
         }
 
         ::slotted(*) {

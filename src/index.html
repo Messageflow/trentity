@@ -81,18 +81,19 @@
         display: none !important;
       }
 
-      trentity-app {
-        height: 100%;
-      }
-
       .editor-section {
         display: grid;
         grid-template-columns: repeat(2, minmax(calc(50% - 16px - 24px * 2), 1fr));
         grid-template-rows: minmax(400px, 1fr);
         grid-column-gap: 16px;
-
+        padding: 16px 24px 0;
+      }
+      .result-section {
+        display: grid;
+        grid-template-rows: auto minmax(400px, 1fr);
         padding: 16px 24px;
       }
+
       .editor--synonyms,
       .editor--replacers,
       .editor-container {
@@ -105,7 +106,8 @@
         grid-template-rows: auto minmax(400px, 1fr);
       }
       .editor--synonyms > h2,
-      .editor--replacers > h2 {
+      .editor--replacers > h2,
+      .result-section > h2 {
         font-size: 18px;
       }
     </style>
@@ -120,6 +122,11 @@
           <h2>Replacers</h2>
           <div class="editor-container"></div>
         </div>
+      </section>
+
+      <section class="result-section">
+        <h2>Result</h2>
+        <textarea id="entity-result" cols="30" rows="10"></textarea>
       </section>
     </trentity-app>
   </body>
