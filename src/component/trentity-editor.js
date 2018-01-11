@@ -140,6 +140,7 @@ window.addEventListener('app-ready', () => {
     const copyBtn = document.querySelector('.copy-btn');
     const appToast = document.querySelector('.app-toast');
 
+    /** TODO: To add debouncer */
     copyBtn.addEventListener('click', (ev) => {
       copyToClipboard(`${entityResultTextarea.value}`);
       appToast.textContent = 'Copied to clipboard!';
