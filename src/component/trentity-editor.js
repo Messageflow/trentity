@@ -93,8 +93,14 @@ window.addEventListener('app-ready', () => {
     };
     const synonymsEditor = document.querySelector('.editor--synonyms > .editor-container');
     const replacersEditor = document.querySelector('.editor--replacers > .editor-container');
-    const monacoSynonymsEditor = monaco.editor.create(synonymsEditor, editorConfig);
-    const monacoReplacersEditor = monaco.editor.create(replacersEditor, editorConfig);
+    const monacoSynonymsEditor = monaco.editor.create(synonymsEditor, {
+      ...editorConfig,
+      value: '[\n]'
+    });
+    const monacoReplacersEditor = monaco.editor.create(replacersEditor, {
+      ...editorConfig,
+      value: '{\n}',
+    });
 
     /** NOTE: Setup editors */
     setupEditor(monacoSynonymsEditor, 'synonyms');
