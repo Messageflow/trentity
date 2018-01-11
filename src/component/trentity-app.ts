@@ -39,8 +39,11 @@ export class TrentityApp extends HTMLElement {
     return html`
       <style>
         :host {
-          display: block;
+          display: grid;
           box-sizing: border-box;
+
+          grid-template-rows: minmax(64px, auto) minmax(800px, 1fr) minmax(64px, 150px);
+          grid-gap: 16px;
         }
 
         .app-header {
@@ -52,8 +55,7 @@ export class TrentityApp extends HTMLElement {
         }
 
         main {
-          display: grid;
-          grid-template-rows: repeat(2, minmax(400px, 1fr));
+          margin: 0 24px;
         }
 
         ::slotted(*) {
@@ -62,16 +64,14 @@ export class TrentityApp extends HTMLElement {
         }
 
         footer {
-          display: grid;
-          grid-template-rows: 64px;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
 
           padding: 0 24px;
           background-color: #333;
           color: #fff;
-        }
-        .footer-notes {
-          align-self: center;
-          justify-self: center;
         }
       </style>
 

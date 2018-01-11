@@ -6,15 +6,19 @@ export interface EntityReplacer {
 }
 export type EntityReplacerFunc = (synonyms: string[]) => Set<string>;
 
-async function generateEntity(
+export async function generateEntity(
   list: EntityList[],
   replacer?: EntityReplacerFunc | EntityReplacer
 ) {
   if (!Array.isArray(list) || !list.length) {
     throw new TypeError('list must be an array');
-  } else if (typeof list[0][0] !== 'string') {
+  }
+
+  if (typeof list[0][0] !== 'string') {
     throw new TypeError('list[0][0] must be a string');
-  } else if (!Array.isArray(list[0][1])) {
+  }
+
+  if (!Array.isArray(list[0][1])) {
     throw new TypeError('list[0][1] must be an array');
   }
 
@@ -30,16 +34,19 @@ async function generateEntity(
       return rplKeys.reduce((p, n) => {
         /** NOTE: Iterate thru all synonyms for each replacer */
         return synonyms.reduce((psn, sn) => {
-          /** NOTE: First add original synonym */
-          psn.add(sn);
-
           const rplVal = rpl[n];
+          const snText = `${sn}`;
+
+          /** NOTE: First add original synonym */
+          psn.add(snText);
 
           /** NOTE: Replace the synonyms with the replacer's value */
           if (Array.isArray(rplVal) && rplVal) {
-            rplVal.map(rv => psn.add(sn.replace(n, rv)));
-          } else if (typeof rplVal === 'string') {
-            psn.add(sn.replace(n, rplVal));
+            rplVal.map(rv => psn.add(snText.replace(n, rv)));
+          }
+
+          if (typeof rplVal === 'string' && rplVal.length > 0) {
+            psn.add(snText.replace(n, rplVal));
           }
 
           return psn;

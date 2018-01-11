@@ -47,8 +47,8 @@
     <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
     <script src="node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
     <script src="node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
-    <script src="/component/trentity-editor.js"></script>
 
+    <script type="module" src="/component/trentity-editor.js"></script>
     <script type="module" src="/component/trentity-app.js"></script>
   </head>
 
@@ -81,17 +81,20 @@
         display: none !important;
       }
 
+      trentity-app {
+        display: grid;
+      }
+
       .editor-section {
         display: grid;
-        grid-template-columns: repeat(2, minmax(calc(50% - 16px - 24px * 2), 1fr));
-        grid-template-rows: minmax(400px, 1fr);
-        grid-column-gap: 16px;
-        padding: 16px 24px 0;
+        grid-template-columns: repeat(2, minmax(64px, 1fr));
+        grid-gap: 16px;
       }
       .result-section {
         display: grid;
-        grid-template-rows: auto minmax(400px, 1fr);
-        padding: 16px 24px;
+        grid-template-rows: auto minmax(200px, 1fr);
+
+        margin: 24px 0 0;
       }
 
       .editor--synonyms,
@@ -103,12 +106,102 @@
       .editor--synonyms,
       .editor--replacers {
         display: grid;
-        grid-template-rows: auto minmax(400px, 1fr);
+        grid-template-rows: auto minmax(600px, 1fr);
       }
       .editor--synonyms > h2,
       .editor--replacers > h2,
-      .result-section > h2 {
+      .result-toolbar > h2 {
         font-size: 18px;
+      }
+
+      .result-toolbar {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .generate-btn {
+        height: 48px;
+        padding: 10px 12px;
+        background-color: #0070fb;
+        color: #fff;
+        font-size: 16px;
+        border: none;
+        border-radius: 2px;
+        text-transform: uppercase;
+      }
+      .generate-btn:focus {
+        font-weight: 700;
+      }
+      .generate-btn:active {
+        opacity: .75;
+      }
+
+      .result-container {
+        position: relative;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        width: 40px;
+        height: 40px;
+        padding: 8px;
+        background-color: inherit;
+        border: none;
+        border-radius: 50%;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 150ms cubic-bezier(0, 0, .2, 1);
+      }
+      .copy-btn:hover,
+      .copy-btn.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .copy-btn:active,
+      .copy-btn:focus {
+        background-color: rgba(0, 0, 0, .15);
+      }
+
+      .copy-btn > svg {
+        fill: #555;
+      }
+      .copy-btn:focus > svg,
+      .copy-btn:active > svg {
+        fill: #0070fb;
+      }
+
+      #entity-result {
+        width: 100%;
+      }
+
+      .app-toast {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        min-width: 288px;
+        max-width: 568px;
+        height: 48px;
+
+        padding: 0 16px;
+        background-color: #323232;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 2px;
+        transform: translate3d(0, calc(100% + 24px), 0);
+        transition: transform 250ms cubic-bezier(0, 0, .2, 1);
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 18px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 5px -1px rgba(0, 0, 0, 0.4);
+      }
+      .app-toast.visible {
+        transform: translate3d(0, 0, 0);
       }
     </style>
 
@@ -125,9 +218,21 @@
       </section>
 
       <section class="result-section">
-        <h2>Result</h2>
-        <textarea id="entity-result" cols="30" rows="10"></textarea>
+        <div class="result-toolbar">
+          <h2>Result</h2>
+          <button class="generate-btn" type="button">Generate</button>
+        </div>
+
+        <div class="result-container">
+          <textarea id="entity-result" cols="30" rows="10" readonly></textarea>
+
+          <button class="copy-btn">
+            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g class="style-scope iron-icon"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" class="style-scope iron-icon"></path></g></svg>
+          </button>
+        </div>
       </section>
     </trentity-app>
+
+    <div class="app-toast"></div>
   </body>
 </html>

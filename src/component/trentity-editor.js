@@ -1,3 +1,6 @@
+/** Import other modules */
+import { generateEntity } from '../generate-entity.js';
+
 const formKey = {
   synonyms: ukey => `${ukey}::synonyms`,
   replacers: ukey => `${ukey}::replacers`,
@@ -31,19 +34,32 @@ function setupEditor(editor, editorType) {
   const userKey = getUserKey();
 
   if (userKey == null) {
-    throw new Error('Unable to store user key');
+    throw new Error('userKey not found');
   }
 
-  editor.onKeyUp((ev) => {
-    window.localStorage.setItem(`${userKey}::${editorType.toLowerCase()}`, ev.target.value);
+  editor.onKeyUp(() => {
+    window.localStorage.setItem(`${userKey}::${editorType.toLowerCase()}`, editor.getValue({
+      lineEnding: 'LF',
+      preserveBOM: true,
+    }));
   });
-
   if (/^synonyms$/i.test(editorType)) {
     editor.setValue(window.localStorage.getItem(formKey.synonyms(userKey)));
   } else {
     editor.setValue(window.localStorage.getItem(formKey.replacers(userKey)));
   }
 }
+
+function copyToClipboard(str) {
+  const listener = e => {
+    e.clipboardData.setData('text/plain', str);
+    e.preventDefault();
+  };
+
+  document.addEventListener('copy', listener);
+  document.execCommand('copy');
+  document.removeEventListener('copy', listener);
+};
 
 window.addEventListener('app-ready', () => {
   require(['vs/editor/editor.main'], function () {
@@ -85,6 +101,7 @@ window.addEventListener('app-ready', () => {
     setupEditor(monacoReplacersEditor, 'replacers');
 
     /** NOTE: Update editors on window's resize */
+    /** TODO: To use ResizeObserver if available */
     window.onresize = function () {
       console.log('window.onresize');
       if (monacoSynonymsEditor && monacoReplacersEditor) {
@@ -92,5 +109,52 @@ window.addEventListener('app-ready', () => {
         monacoReplacersEditor.layout();
       }
     };
+
+    /** NOTE: Setup .generate-btn click event handler */
+    const generateBtn = document.querySelector('.generate-btn');
+    const entityResultTextarea = document.querySelector('#entity-result');
+
+    generateBtn.addEventListener('click', async (ev) => {
+      if (ev.target.isEqualNode(ev.currentTarget)) {
+        const userKey = getUserKey();
+
+        if (userKey == null) {
+          throw new Error('userKey not found');
+        }
+
+        const parsedSynonyms = JSON.parse(window.localStorage.getItem(formKey.synonyms(userKey)));
+        const parsedReplacers = JSON.parse(window.localStorage.getItem(formKey.replacers(userKey)));
+        const generatedEntityList = await generateEntity(parsedSynonyms, parsedReplacers);
+
+        entityResultTextarea.value = generatedEntityList;
+      }
+    });
+
+    /** NOTE: Setup clipboard */
+    const copyBtn = document.querySelector('.copy-btn');
+    const appToast = document.querySelector('.app-toast');
+
+    copyBtn.addEventListener('click', (ev) => {
+      copyToClipboard(`${entityResultTextarea.value}`);
+      appToast.textContent = 'Copied to clipboard!';
+
+      if (appToast.classList.contains('visible')) {
+        appToast.classList.remove('visible');
+      }
+
+      window.requestAnimationFrame(() => {
+        appToast.classList.add('visible');
+
+        setTimeout(() => {
+          window.requestAnimationFrame(() => appToast.classList.remove('visible'));
+        }, 15e2);
+      });
+    });
+    entityResultTextarea.addEventListener('pointerover', () => {
+      copyBtn.classList.add('visible');
+    });
+    entityResultTextarea.addEventListener('pointerout', () => {
+      copyBtn.classList.remove('visible');
+    });
   });
 });

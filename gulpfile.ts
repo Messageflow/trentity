@@ -76,6 +76,7 @@ gulp.task('ts', () =>
 
 gulp.task('babel', () =>
   gulp.src([
+    `${SRC}/**/*.js`,
     `${TMP}/**/*.js`,
   ])
     .pipe(babel(BABELRC))
@@ -97,7 +98,6 @@ gulp.task('clear', () => del([
 ]));
 
 gulp.task('copy', () => gulp.src([
-  `${SRC}/**/*.js`,
   `${SRC}/**/*.html`,
   `${TMP}/**/*`,
   `!${TMP}/**/*.js`,
