@@ -43,13 +43,15 @@
     <meta name="msapplication-TileColor" content="#0070fb">
     <meta name="msapplication-tap-highlight" content="no">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,500italic,700|Roboto+Mono:400,500,700|Google+Sans:400,500">
+
     <script>var require = { paths: { vs: 'node_modules/monaco-editor/min/vs' } };</script>
     <script src="node_modules/monaco-editor/min/vs/loader.js"></script>
     <script src="node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
     <script src="node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
 
+    <script type="module" src="/component/app-toolbar.js"></script>
     <script type="module" src="/component/trentity-editor.js"></script>
-    <script type="module" src="/component/trentity-app.js"></script>
   </head>
 
   <body>
@@ -57,23 +59,18 @@
       html,
       body {
         width: 100%;
-        height: 100%;
+        min-height: 100vh;
         margin: 0;
         padding: 0;
         background-color: #f1f1f1;
         color: #000;
         font-size: 16px;
-        font-family: sans-serif;
+        font-family: 'Google Sans', sans-serif;
         line-height: 1.5;
         box-sizing: border-box;
       }
 
-      body {
-        min-height: 100vh;
-      }
-
       * {
-        line-height: 1.5;
         box-sizing: border-box;
       }
 
@@ -81,30 +78,66 @@
         display: none !important;
       }
 
-      trentity-app {
-        display: grid;
+      .app-header {
+        display: flex;
+        flex-direction: row;
+
+        padding: 0 24px;
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 10px 0 rgba(0, 0, 0, 0.12),
+                    0 2px 4px -1px rgba(0, 0, 0, 0.4);
+      }
+      .app-toolbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        width: 100%;
+        height: 64px;
+      }
+      .app-toolbar > .title {
+        font-size: 20px;
+        font-weight: 500;
+      }
+
+      main {
+        width: calc(100% - 24px * 2);
+        margin: 0 24px;
       }
 
       .editor-section {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(64px, 1fr));
-        grid-gap: 16px;
-      }
-      .result-section {
-        display: grid;
-        grid-template-rows: auto minmax(200px, 1fr);
+        display: flex;
+        flex-direction: row;
 
-        margin: 24px 0 0;
+        width: 100%;
+      }
+
+      .editor--synonyms,
+      .editor--replacers {
+        display: flex;
+        flex-direction: column;
+
+        width: calc((100% - 24px) / 2);
+        height: 100%;
+      }
+      .editor--replacers {
+        margin: 0 0 0 24px;
       }
 
       .editor-container {
-        height: 800px;
+        width: 100%;
+        height: 600px;
       }
 
       .editor--synonyms > h2,
       .editor--replacers > h2,
       .result-toolbar > h2 {
         font-size: 18px;
+        font-weight: 400;
+      }
+
+      .result-section {
+        margin: 24px 0 0;
       }
 
       .result-toolbar {
@@ -170,6 +203,34 @@
         width: 100%;
       }
 
+      footer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 24px;
+      }
+      footer > .footer-notes {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 90px;
+      }
+      a {
+        color: var(--external-link-color, #1e88e5);
+        font-size: 16px;
+        font-weight: 400;
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        text-decoration: underline;
+      }
+
       .app-toast {
         display: flex;
         flex-direction: row;
@@ -198,7 +259,13 @@
       }
     </style>
 
-    <trentity-app>
+    <header class="app-header">
+      <div class="app-toolbar">
+        <h1 class="title">Trentity</h1>
+      </div>
+    </header>
+
+    <main>
       <section class="editor-section">
         <div class="editor--synonyms">
           <h2>Synonyms</h2>
@@ -224,7 +291,13 @@
           </button>
         </div>
       </section>
-    </trentity-app>
+    </main>
+
+    <footer>
+      <div class="footer-notes">
+        Built with&nbsp;<a href="https://github.com/PolymerLabs/lit-html" target="_blank" rel="noopener">lit-html</a>&nbsp;&amp; ❤️
+      </div>
+    </footer>
 
     <div class="app-toast"></div>
   </body>

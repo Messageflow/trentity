@@ -1,6 +1,8 @@
 /** Import other modules */
 import { generateEntity } from '../generate-entity.js';
 
+console.log('trentity-editor.js');
+
 const formKey = {
   synonyms: ukey => `${ukey}::synonyms`,
   replacers: ukey => `${ukey}::replacers`,
@@ -62,7 +64,7 @@ function copyToClipboard(str) {
   document.removeEventListener('copy', listener);
 };
 
-window.addEventListener('app-ready', () => {
+window.addEventListener('DOMContentLoaded', () => {
   require(['vs/editor/editor.main'], function () {
     const editorConfig = {
       value: '',
@@ -118,20 +120,20 @@ window.addEventListener('app-ready', () => {
     };
 
     window.onresize = () => {
-      // const editorSectionRect = document.querySelector('.editor-section').getBoundingClientRect();
-      const synonymsEditorRect = synonymsEditor.getBoundingClientRect();
-      const replacersEditorRect = replacersEditor.getBoundingClientRect();
+      monacoSynonymsEditor.layout();
+      monacoReplacersEditor.layout();
 
-      monacoSynonymsEditor.layout({
-        width: synonymsEditorRect.width,
-        height: 800,
-        // height: editorSectionRect.height - synonymsEditorRect.top,
-      });
-      monacoReplacersEditor.layout({
-        width: replacersEditorRect.width,
-        height: 800,
-        // height: editorSectionRect.height - replacersEditorRect.top,
-      });
+      // const synonymsEditorRect = synonymsEditor.getBoundingClientRect();
+      // const replacersEditorRect = replacersEditor.getBoundingClientRect();
+
+      // monacoSynonymsEditor.layout({
+      //   width: synonymsEditorRect.width,
+      //   height: 800,
+      // });
+      // monacoReplacersEditor.layout({
+      //   width: replacersEditorRect.width,
+      //   height: 800,
+      // });
     };
 
     /** NOTE: Setup .generate-btn click event handler */
