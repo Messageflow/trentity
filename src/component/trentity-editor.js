@@ -43,6 +43,7 @@ function setupEditor(editor, editorType) {
       preserveBOM: true,
     }));
   });
+
   if (/^synonyms$/i.test(editorType)) {
     editor.setValue(window.localStorage.getItem(formKey.synonyms(userKey)));
   } else {
@@ -108,12 +109,29 @@ window.addEventListener('app-ready', () => {
 
     /** NOTE: Update editors on window's resize */
     /** TODO: To use ResizeObserver if available */
-    window.onresize = function () {
-      console.log('window.onresize');
-      if (monacoSynonymsEditor && monacoReplacersEditor) {
-        monacoSynonymsEditor.layout();
-        monacoReplacersEditor.layout();
+    const layoutEditors = (entries, editor) => {
+      if (editor == null) {
+        throw new TypeError('editor is missing');
       }
+
+      editor.layout();
+    };
+
+    window.onresize = () => {
+      // const editorSectionRect = document.querySelector('.editor-section').getBoundingClientRect();
+      const synonymsEditorRect = synonymsEditor.getBoundingClientRect();
+      const replacersEditorRect = replacersEditor.getBoundingClientRect();
+
+      monacoSynonymsEditor.layout({
+        width: synonymsEditorRect.width,
+        height: 800,
+        // height: editorSectionRect.height - synonymsEditorRect.top,
+      });
+      monacoReplacersEditor.layout({
+        width: replacersEditorRect.width,
+        height: 800,
+        // height: editorSectionRect.height - replacersEditorRect.top,
+      });
     };
 
     /** NOTE: Setup .generate-btn click event handler */
@@ -164,4 +182,5 @@ window.addEventListener('app-ready', () => {
       copyBtn.classList.remove('visible');
     });
   });
+
 });
