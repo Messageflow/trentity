@@ -70,8 +70,6 @@ export class TrentityApp extends HTMLElement {
           justify-content: center;
 
           padding: 0 24px;
-          background-color: #333;
-          color: #fff;
         }
       </style>
 
