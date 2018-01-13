@@ -77,7 +77,7 @@ This methods works the same as `greeting(name)` except that this is the synchron
 
 ## License
 
-[MIT License](https://messageflow.mit-license.org/) © Rong Sen Ng
+[MIT License](https://motss.mit-license.org/) © Rong Sen Ng
 
 
 
@@ -92,33 +92,33 @@ This methods works the same as `greeting(name)` except that this is the synchron
 
 [nodei-badge]: https://nodei.co/npm/trentity.png?downloads=true&downloadRank=true&stars=true
 
-[travis-badge]: https://img.shields.io/travis/messageflow/trentity.svg?style=flat-square
+[travis-badge]: https://img.shields.io/travis/Messageflow/trentity.svg?style=flat-square
 
 [version-badge]: https://img.shields.io/npm/v/trentity.svg?style=flat-square
 [downloads-badge]: https://img.shields.io/npm/dm/trentity.svg?style=flat-square
 [mit-license-badge]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
-[nsp-badge]: https://nodesecurity.io/orgs/messageflow/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae/badge
+[nsp-badge]: https://nodesecurity.io/orgs/Messageflow/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae/badge
 [daviddm-badge]: https://img.shields.io/david/expressjs/express.svg?style=flat-square
 
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 
 [codebeat-badge]: https://codebeat.co/badges/e486e791-12b7-4198-b834-0fa5bd04e1c3
 [codacy-badge]: https://api.codacy.com/project/badge/Grade/a70d1556b4e74711a162c4fd4dbb68a1
-[inch-badge]: http://inch-ci.org/github/messageflow/trentity.svg?branch=master
+[inch-badge]: http://inch-ci.org/github/Messageflow/trentity.svg?branch=master
 
 
 
 [nodei-url]: https://nodei.co/npm/trentity
 
-[travis-url]: https://travis-ci.org/messageflow/trentity
+[travis-url]: https://travis-ci.org/Messageflow/trentity
 [version-url]: https://npmjs.org/package/trentity
 [downloads-url]: http://www.npmtrends.com/trentity
-[mit-license-url]: https://github.com/messageflow/trentity/blob/master/LICENSE
-[nsp-url]: https://nodesecurity.io/orgs/messageflow/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae
-[daviddm-url]: https://david-dm.org/messageflow/trentity
+[mit-license-url]: https://github.com/Messageflow/trentity/blob/master/LICENSE
+[nsp-url]: https://nodesecurity.io/orgs/Messageflow/projects/a1c57ec8-9c17-4912-932b-f1ff6284e2ae
+[daviddm-url]: https://david-dm.org/Messageflow/trentity
 
-[coc-url]: https://github.com/messageflow/trentity/blob/master/CODE_OF_CONDUCT.md
+[coc-url]: https://github.com/Messageflow/trentity/blob/master/CODE_OF_CONDUCT.md
 
-[codebeat-url]: https://codebeat.co/projects/github-com-messageflow-trentity-master
-[codacy-url]: https://www.codacy.com/app/messageflow/trentity?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=messageflow/trentity&amp;utm_campaign=Badge_Grade
-[inch-url]: http://inch-ci.org/github/messageflow/trentity
+[codebeat-url]: https://codebeat.co/projects/github-com-Messageflow-trentity-master
+[codacy-url]: https://www.codacy.com/app/Messageflow/trentity?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Messageflow/trentity&amp;utm_campaign=Badge_Grade
+[inch-url]: http://inch-ci.org/github/Messageflow/trentity
