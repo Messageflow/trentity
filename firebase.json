@@ -1,13 +1,8 @@
 {
+  "database": {},
   "hosting": {
     "public": "./dist",
     "headers": [ {
-      "source": "/",
-      "headers": [ {
-        "key": "Link",
-        "value": ""
-      } ]
-    }, {
       "source": "**/*.html",
       "headers": [ {
         "key": "Cache-Control",
