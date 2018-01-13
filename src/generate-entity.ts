@@ -42,7 +42,7 @@ const replacerMapper = (rpl: EntityReplacer) => {
   };
 };
 
-export async function generateEntity(
+export function generateEntitySync(
   list: EntityList[],
   replacer?: EntityReplacerFunc | EntityReplacer
 ) {
@@ -85,6 +85,13 @@ export async function generateEntity(
   } catch (e) {
     throw e;
   }
+}
+
+export async function generateEntity(
+  list: EntityList[],
+  replacer?: EntityReplacerFunc | EntityReplacer
+) {
+  return generateEntitySync(list, replacer);
 }
 
 export default generateEntity;

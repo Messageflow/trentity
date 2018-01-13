@@ -4,10 +4,10 @@
 import { EntityList } from './generate-entity';
 
 function quotesCleaner(entity: string) {
-  return (entity || '').replace(/"/gi, '');
+  return entity.trim().replace(/"/gi, '');
 }
 
-export async function revertEntity(
+export function revertEntitySync(
   entityList: string
 ) {
   try {
@@ -29,6 +29,10 @@ export async function revertEntity(
   } catch (e) {
     throw e;
   }
+}
+
+export async function revertEntity(entityList: string) {
+  return revertEntitySync(entityList);
 }
 
 export default revertEntity;
