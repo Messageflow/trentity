@@ -26,7 +26,6 @@
     "build:debug": "npm run ts && gulp build && npm run cleanup",
     "check": "npm run lint && npm run nsp",
     "cleanup": "rm -rf gulpfile.js",
-    "debug": "cross-env PORT=3000 node -r @std/esm --max-old-space-size=8192 ./dist/server.js",
     "gulp": "npm run ts && gulp",
     "lint": "tslint --project tsconfig.json --config tslint.json",
     "lint:fix": "tslint -p . -c tslint.json --fix",
