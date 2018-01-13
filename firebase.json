@@ -1,25 +1,29 @@
 {
   "database": {},
   "hosting": {
-    "public": "./dist",
-    "headers": [ {
-      "source": "**/*.html",
-      "headers": [ {
-        "key": "Cache-Control",
-        "value": "max-age=600"
-      } ]
-    }, {
-      "source": "**/*.@(min.js|js)",
-      "headers": [ {
-        "key": "Cache-Control",
-        "value": "max-age=600"
-      } ]
-    }, {
-      "source": "**/*.json",
-      "headers": [ {
-        "key": "Cache-Control",
-        "value": "max-age=600"
-      } ]
-    } ]
+    "public": "./dist/demo",
+    "headers": [
+      {
+        "source": "**/*.html",
+        "headers": [ {
+          "key": "Cache-Control",
+          "value": "max-age=600"
+        } ]
+      }, {
+        "source": "**/*.@(min.js|js)",
+        "headers": [ {
+          "key": "Cache-Control",
+          "value": "max-age=600"
+        } ]
+      }, {
+        "source": "**/*.json",
+        "headers": [ {
+          "key": "Cache-Control",
+          "value": "max-age=600"
+        } ]
+      }
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false
   }
 }

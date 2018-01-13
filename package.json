@@ -50,6 +50,7 @@
     "env-cmd": "^7.0.0",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.0",
+    "gulp-htmlmin": "^4.0.0",
     "gulp-sequence": "^0.4.6",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.3",

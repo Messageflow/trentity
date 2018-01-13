@@ -4,6 +4,7 @@
 import * as del from 'del';
 import * as gulp from 'gulp';
 import * as babel from 'gulp-babel';
+import * as htmlmin from 'gulp-htmlmin';
 import * as sq from 'gulp-sequence';
 import lint from 'gulp-tslint';
 import * as ts from 'gulp-typescript';
@@ -85,7 +86,6 @@ gulp.task('ts', () =>
 
 gulp.task('babel', () =>
   gulp.src([
-    `${SRC}/**/*.js`,
     `${TMP}/**/*.js`,
   ])
     .pipe(babel(BABELRC))
@@ -107,7 +107,6 @@ gulp.task('clear', () => del([
 ]));
 
 gulp.task('copy', () => gulp.src([
-  `${SRC}/**/*.html`,
   `${TMP}/**/*`,
   `!${TMP}/**/*.js`,
 ])
@@ -116,7 +115,26 @@ gulp.task('copy', () => gulp.src([
 gulp.task('monaco', () => gulp.src([
   'node_modules/monaco-editor/**/*',
 ])
-  .pipe(gulp.dest(`${DIST}/node_modules/monaco-editor`)));
+  .pipe(gulp.dest(`${DIST}/demo/node_modules/monaco-editor`)));
+gulp.task('demo:index', () => gulp.src([
+  `${SRC}/demo/**/*.html`,
+])
+  .pipe(htmlmin({
+    minifyCSS: true,
+    minifyJS: true,
+    collapseWhitespace: true,
+    removeComments: true,
+  }))
+  .pipe(gulp.dest(`${DIST}/demo`)));
+gulp.task('demo-copy', () => gulp.src([
+  `${TMP}/**/*.js`,
+])
+  .pipe(gulp.dest(`${DIST}/demo`)));
+gulp.task('demo', ['monaco', 'demo:index'], () => gulp.src([
+  `${SRC}/demo/**/*.js`,
+])
+  .pipe(babel(BABELRC))
+  .pipe(gulp.dest(`${DIST}/demo`)));
 
 gulp.task('watch', () => {
   gulp.watch([
@@ -128,7 +146,8 @@ gulp.task('watch', () => {
 gulp.task('build', ['clean'], cb => sq(...[
   'lint',
   'ts',
-  ['babel', 'copy', 'monaco'],
+  ['babel', 'copy'],
+  ['demo', 'demo-copy'],
   'clear',
 ])(cb));
 
