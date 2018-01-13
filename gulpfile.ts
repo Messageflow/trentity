@@ -9,6 +9,10 @@ import lint from 'gulp-tslint';
 import * as ts from 'gulp-typescript';
 import * as tslint from 'tslint';
 
+/** Import other modules */
+// tslint:disable-next-line:no-var-requires
+const packageJson = require('./package.json');
+
 /** Setting up */
 const isProd = process.env.NODE_ENV === 'production';
 const SRC = 'src';
@@ -42,6 +46,11 @@ const BABELRC = {
     ] : []),
   ],
   plugins: [
+    [
+      'inline-replace-variables', {
+        __APP_VERSION__: packageJson.version,
+      },
+    ],
     'transform-function-bind',
     ['transform-object-rest-spread', { useBuiltIns: true }],
   ],
@@ -102,7 +111,12 @@ gulp.task('copy', () => gulp.src([
   `${TMP}/**/*`,
   `!${TMP}/**/*.js`,
 ])
-  .pipe(gulp.dest(DIST)));
+.pipe(gulp.dest(DIST)));
+
+gulp.task('monaco', () => gulp.src([
+  'node_modules/monaco-editor/**/*',
+])
+  .pipe(gulp.dest(`${DIST}/node_modules/monaco-editor`)));
 
 gulp.task('watch', () => {
   gulp.watch([
@@ -114,7 +128,7 @@ gulp.task('watch', () => {
 gulp.task('build', ['clean'], cb => sq(...[
   'lint',
   'ts',
-  ['babel', 'copy'],
+  ['babel', 'copy', 'monaco'],
   'clear',
 ])(cb));
 

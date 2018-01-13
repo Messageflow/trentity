@@ -1,0 +1,30 @@
+{
+  "hosting": {
+    "public": "./dist",
+    "headers": [ {
+      "source": "/",
+      "headers": [ {
+        "key": "Link",
+        "value": ""
+      } ]
+    }, {
+      "source": "**/*.html",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=600"
+      } ]
+    }, {
+      "source": "**/*.@(min.js|js)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=600"
+      } ]
+    }, {
+      "source": "**/*.json",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=600"
+      } ]
+    } ]
+  }
+}

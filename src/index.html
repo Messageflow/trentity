@@ -16,6 +16,9 @@
 
     <link rel="icon" href="images/favicon.ico">
 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+
     <!-- See https://goo.gl/OOhYW5 -->
     <!-- <link rel="manifest" href="manifest.json"> -->
 
@@ -50,7 +53,6 @@
     <script src="node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
     <script src="node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
 
-    <script type="module" src="/component/app-toolbar.js"></script>
     <script type="module" src="/component/trentity-editor.js"></script>
   </head>
 
@@ -119,6 +121,7 @@
 
         width: calc((100% - 24px) / 2);
         height: 100%;
+        overflow: hidden; /** HACK: overflow-x oddly happens */
       }
       .editor--replacers {
         margin: 0 0 0 24px;
@@ -257,6 +260,25 @@
       .app-toast.visible {
         transform: translate3d(0, 0, 0);
       }
+
+      @media screen and (max-width: 440px) {
+        .editor-section {
+          display: flex;
+          flex-direction: column;
+
+          width: 100%;
+        }
+
+        .editor--synonyms,
+        .editor--replacers {
+          display: flex;
+          flex-direction: column;
+
+          width: 100%;
+          height: 100%;
+          margin: 0;
+        }
+      }
     </style>
 
     <header class="app-header">
@@ -295,7 +317,8 @@
 
     <footer>
       <div class="footer-notes">
-        Built with&nbsp;<a href="https://github.com/PolymerLabs/lit-html" target="_blank" rel="noopener">lit-html</a>&nbsp;&amp; ❤️
+        <!-- Built with&nbsp;<a href="https://github.com/PolymerLabs/lit-html" target="_blank" rel="noopener">lit-html</a>&nbsp;&amp; ❤️ -->
+        Built with&nbsp;<a href="https://github.com/Microsoft/monaco-editor" target="_blank" rel="noopener">monaco-editor</a>&nbsp;&amp; ❤️
       </div>
     </footer>
 

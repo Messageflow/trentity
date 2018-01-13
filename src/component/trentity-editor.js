@@ -1,7 +1,12 @@
 /** Import other modules */
 import { generateEntity } from '../generate-entity.js';
 
-console.log('trentity-editor.js');
+console.log(
+  `✨You\'re now using the %cTrentity %c🔖%s 🔥🔥🔥`,
+  'font-size: 20px; color: #0070fb;',
+  'font-size: 16px; color: #fb00b7;',
+  __APP_VERSION__
+);
 
 const formKey = {
   synonyms: ukey => `${ukey}::synonyms`,
@@ -71,28 +76,33 @@ window.addEventListener('DOMContentLoaded', () => {
       language: 'json',
 
       autoClosingBrackets: true,
-        codeLens: true,
-        folding: true,
-        fontLigatures: true,
-        formatOnPaste: true,
-        lineNumbers: 'on',
-        minimap: false,
-        parameterHints: true,
-        quickSuggestions: {
-            other: true,
-            comments: true,
-            strings: true,
-        },
-        quickSuggestionsDelay: 10,
-        renderWhitespace: 'all',
-        renderIndentGuides: true,
-        renderControlCharacters: true,
-        showFoldingControls: 'always',
-        tabSize: 2,
-        wordWrap: 'wordWrapColumn',
-        wordWrapColumn: 100,
+      autoIndent: true,
+      automaticLayout: false,
+      codeLens: true,
+      folding: true,
+      fontLigatures: true,
+      formatOnPaste: true,
+      lineNumbers: 'on',
+      minimap: {
+        enabled: false,
+      },
+      parameterHints: true,
+      quickSuggestions: {
+          other: true,
+          comments: true,
+          strings: true,
+      },
+      quickSuggestionsDelay: 10,
+      renderWhitespace: 'all',
+      renderIndentGuides: true,
+      renderControlCharacters: true,
+      showFoldingControls: 'always',
+      scrollBeyondLstLine: false,
+      tabSize: 2,
+      wordWrap: 'wordWrapColumn',
+      wordWrapColumn: 100,
 
-        theme: 'vs-dark',
+      theme: 'vs-dark',
     };
     const synonymsEditor = document.querySelector('.editor--synonyms > .editor-container');
     const replacersEditor = document.querySelector('.editor--replacers > .editor-container');
