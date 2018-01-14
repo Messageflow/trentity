@@ -242,12 +242,12 @@ This methods works the same as `revertEntity(entityList)` except that this is th
 
 [travis-badge]: https://img.shields.io/travis/Messageflow/trentity.svg?style=flat-square
 
-[version-badge]: https://img.shields.io/npm/v/trentity.svg?style=flat-square
-[downloads-badge]: https://img.shields.io/npm/dm/trentity.svg?style=flat-square
+[version-badge]: https://img.shields.io/npm/v/@messageflow/trentity.svg?style=flat-square
+[downloads-badge]: https://img.shields.io/npm/dm/@messageflow/trentity.svg?style=flat-square
 [mit-license-badge]: https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square
 [nsp-badge]: 
 https://nodesecurity.io/orgs/messageflow/projects/70b453df-3cdb-4163-ae09-4e918ef5784d/badge
-[daviddm-badge]: https://img.shields.io/david/expressjs/express.svg?style=flat-square
+[daviddm-badge]: https://img.shields.io/david/messageflow/trentity.svg?style=flat-square
 
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [codecov-badge]: https://codecov.io/gh/motss/fetch-as/branch/master/graph/badge.svg
@@ -263,7 +263,7 @@ https://nodesecurity.io/orgs/messageflow/projects/70b453df-3cdb-4163-ae09-4e918e
 
 [travis-url]: https://travis-ci.org/Messageflow/trentity
 [version-url]: https://www.npmjs.com/package/@messageflow/trentity
-[downloads-url]: http://www.npmtrends.com/trentity
+[downloads-url]: http://www.npmtrends.com/@messageflow/trentity
 [mit-license-url]: https://github.com/Messageflow/trentity/blob/master/LICENSE
 [nsp-url]: https://nodesecurity.io/orgs/messageflow/projects/70b453df-3cdb-4163-ae09-4e918ef5784d
 [daviddm-url]: https://david-dm.org/Messageflow/trentity
