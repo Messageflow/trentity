@@ -13,6 +13,7 @@ yarn-error.log*
 
 # folders
 coverage*/
+demo*/
 dist*/
 node_modules/
 

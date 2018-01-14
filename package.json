@@ -1,7 +1,6 @@
 {
   "name": "@messageflow/trentity",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.0.1",
   "description": "Train your Dialogflow with better entities in simple way",
   "keywords": [
     "dialogflow-entity",
@@ -36,9 +35,7 @@
     "test": "jest --config ./.jestrc.json",
     "ts": "tsc --target esnext --lib esnext,esnext.asynciterable --module commonjs gulpfile.ts"
   },
-  "dependencies": {
-    "monaco-editor": "^0.10.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^22.0.1",
     "@types/node": "^9.3.0",
@@ -61,6 +58,7 @@
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.3",
     "jest": "^22.0.6",
+    "monaco-editor": "^0.10.1",
     "nsp": "^3.1.0",
     "ts-jest": "^22.0.1",
     "tslint": "^5.8.0",
