@@ -238,7 +238,7 @@ This methods works the same as `revertEntity(entityList)` except that this is th
 
 
 
-[nodei-badge]: https://nodei.co/npm/trentity.png?downloads=true&downloadRank=true&stars=true
+[nodei-badge]: https://nodei.co/npm/@messageflow/trentity.png?downloads=true&downloadRank=true&stars=true
 
 [travis-badge]: https://img.shields.io/travis/Messageflow/trentity.svg?style=flat-square
 
@@ -259,10 +259,10 @@ https://nodesecurity.io/orgs/messageflow/projects/70b453df-3cdb-4163-ae09-4e918e
 
 
 
-[nodei-url]: https://nodei.co/npm/trentity
+[nodei-url]: https://nodei.co/npm/@messageflow/trentity
 
 [travis-url]: https://travis-ci.org/Messageflow/trentity
-[version-url]: https://npmjs.org/package/trentity
+[version-url]: https://www.npmjs.com/package/@messageflow/trentity
 [downloads-url]: http://www.npmtrends.com/trentity
 [mit-license-url]: https://github.com/Messageflow/trentity/blob/master/LICENSE
 [nsp-url]: https://nodesecurity.io/orgs/messageflow/projects/70b453df-3cdb-4163-ae09-4e918ef5784d
