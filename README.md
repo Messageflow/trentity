@@ -146,7 +146,7 @@ import {
  */
 
 /** To generate entity list with replacers */
-void async () => {
+void async function main() => {
   const d = await generateEntity([
     [
       'Accessories for car',
@@ -173,7 +173,7 @@ void async () => {
 }();
 
 /** To revert generated entity list */
-void async () => {
+void async function main() => {
   const d = await revertEntity('"Accessories for car","accessories for car","accessory for car","access for car","accesory for car","acessory for car","car accessory","accessories for cars","accessories for vehicle","accessories for vehicles","cars accessory","vehicle accessory","vehicles accessory"');
 
   assert(d, [
@@ -216,7 +216,7 @@ This methods works the same as `generateEntity(list[, replacer])` except that th
   - entityList <[string][string-mdn-url]> A string consists of reference values and synonyms.
   - returns: <[Promise][promise-mdn-url]<<[Array][array-mdn-url]<[[string][string-mdn-url], [string][string-mdn-url][]]>>> Promise which resolves with a list of reference values and synonyms.
 
-### revertEntity(entityList)
+### revertEntitySync(entityList)
 
 This methods works the same as `revertEntity(entityList)` except that this is the synchronous version.
 
