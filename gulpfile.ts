@@ -18,9 +18,10 @@ const packageJson = require('./package.json');
 const isProd = process.env.NODE_ENV === 'production';
 const SRC = 'src';
 const TMP = '.tmp';
-const DIST = 'dist';
+const DIST = '.';
 const IGNORE_DIR = [
   `${SRC}/demo`,
+  `${SRC}/test`,
 ];
 const BABELRC = {
   presets: [
@@ -31,7 +32,7 @@ const BABELRC = {
           node: 'current',
         },
         spec: true,
-        modules: false,
+        modules: 'commonjs',
         useBuiltIns: true,
       },
     ],
@@ -93,18 +94,21 @@ gulp.task('babel', () =>
 
 gulp.task('clean', () => del([
   TMP,
-  DIST,
   '*.js',
   '*.jsx',
   '*.d.ts*',
   'test/',
   'demo/',
-]));
+], {
+  force: true,
+}));
 
 gulp.task('clear', () => del([
   TMP,
   './gulpfile.js',
-]));
+], {
+  force: true,
+}));
 
 gulp.task('copy', () => gulp.src([
   `${TMP}/**/*`,
