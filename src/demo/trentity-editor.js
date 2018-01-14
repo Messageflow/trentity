@@ -1,5 +1,5 @@
 /** Import other modules */
-import { generateEntity } from '../generate-entity.js';
+import { generateEntity } from '/generate-entity.js';
 
 console.log(
   `✨You\'re now using the %cTrentity %c🔖%s 🔥🔥🔥`,
@@ -67,7 +67,46 @@ function copyToClipboard(str) {
   document.addEventListener('copy', listener);
   document.execCommand('copy');
   document.removeEventListener('copy', listener);
-};
+}
+
+function getValueFromEditorOrLocalStorage(userKey, editor) {
+  if (typeof userKey !== 'string' || !userKey.length) {
+    throw new TypeError('userKey is missing or is not a string');
+  }
+
+  if (editor == null) {
+    throw new TypeError('editor is missing');
+  }
+
+  const tryFromLocalStorage = window.localStorage.getItem(userKey);
+
+  if (tryFromLocalStorage == null) {
+    const tryFromEditor = editor.getValue({
+      lineEnding: 'LF',
+      preserveBOM: true,
+    });
+
+    return tryFromEditor;
+  }
+
+  return tryFromLocalStorage;
+}
+
+function tryJSONParse(content, whichEditor) {
+  if (typeof content !== 'string') {
+    throw new TypeError('content is not a string');
+  }
+
+  if (typeof whichEditor !== 'string') {
+    throw new TypeError('whichEditor is not a string');
+  }
+
+  try {
+    return JSON.parse(content);
+  } catch (e) {
+    throw new Error(`Invalid JSON found in ${whichEditor}`);
+  }
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   require(['vs/editor/editor.main'], function () {
@@ -108,11 +147,28 @@ window.addEventListener('DOMContentLoaded', () => {
     const replacersEditor = document.querySelector('.editor--replacers > .editor-container');
     const monacoSynonymsEditor = monaco.editor.create(synonymsEditor, {
       ...editorConfig,
-      value: '[\n]'
+      value: [
+        '[',
+        '    [',
+        '        "haha",',
+        '        [',
+        '            "lol",',
+        '            "wow"',
+        '        ]',
+        '    ]',
+        ']',
+      ].join('\n'),
     });
     const monacoReplacersEditor = monaco.editor.create(replacersEditor, {
       ...editorConfig,
-      value: '{\n}',
+      value: [
+        '{',
+        '    "lol": [',
+        '        "loool",',
+        '        "wahaha"',
+        '    ]',
+        '}',
+      ].join('\n'),
     });
 
     /** NOTE: Setup editors */
@@ -121,13 +177,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
     /** NOTE: Update editors on window's resize */
     /** TODO: To use ResizeObserver if available */
-    const layoutEditors = (entries, editor) => {
-      if (editor == null) {
-        throw new TypeError('editor is missing');
-      }
+    // const layoutEditors = (entries, editor) => {
+    //   if (editor == null) {
+    //     throw new TypeError('editor is missing');
+    //   }
 
-      editor.layout();
-    };
+    //   editor.layout();
+    // };
 
     window.onresize = () => {
       monacoSynonymsEditor.layout();
@@ -149,44 +205,74 @@ window.addEventListener('DOMContentLoaded', () => {
     /** NOTE: Setup .generate-btn click event handler */
     const generateBtn = document.querySelector('.generate-btn');
     const entityResultTextarea = document.querySelector('#entity-result');
+    const appToast = document.querySelector('.app-toast');
+    let toastTimer = null;
 
-    generateBtn.addEventListener('click', async (ev) => {
-      if (ev.target.isEqualNode(ev.currentTarget)) {
+    function debounce(fn, delay) {
+      var timer = null;
+      return function () {
+        var context = this, args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          fn.apply(context, args);
+        }, delay);
+      };
+    }
+
+    function toggleToast(toastMessage, visible = false, timeout = 15e2) {
+      appToast.textContent = toastMessage;
+
+      if (appToast.classList.contains('visible')) {
+        appToast.classList.remove('visible');
+
+        if (toastTimer != null) {
+          clearTimeout(toastTimer);
+        }
+      }
+
+      appToast.classList.add('visible');
+
+      toastTimer = setTimeout(() => {
+        window.requestAnimationFrame(() => appToast.classList.remove('visible'));
+      }, timeout);
+    }
+
+    generateBtn.addEventListener('click', debounce(async (ev) => {
+      try {
         const userKey = getUserKey();
 
         if (userKey == null) {
           throw new Error('userKey not found');
         }
 
-        const parsedSynonyms = JSON.parse(window.localStorage.getItem(formKey.synonyms(userKey)));
-        const parsedReplacers = JSON.parse(window.localStorage.getItem(formKey.replacers(userKey)));
+        const synonymsValue = getValueFromEditorOrLocalStorage(formKey.synonyms(userKey), monacoSynonymsEditor);
+        const replacersValue = getValueFromEditorOrLocalStorage(formKey.replacers(userKey), monacoReplacersEditor);
+        const parsedSynonyms = tryJSONParse(synonymsValue, 'Synonyms');
+        const parsedReplacers = tryJSONParse(replacersValue, 'Replacers');
         const generatedEntityList = await generateEntity(parsedSynonyms, parsedReplacers);
 
         entityResultTextarea.value = generatedEntityList;
+
+        window.localStorage.setItem(`${userKey}::synonyms`, synonymsValue);
+        window.localStorage.setItem(`${userKey}::replacers`, replacersValue);
+
+        toggleToast('Result generated!', true);
+      } catch (e) {
+        console.debug(e);
+
+        toggleToast(`${e.message}`, true, 5e3);
       }
-    });
+    }, 250));
 
     /** NOTE: Setup clipboard */
     const copyBtn = document.querySelector('.copy-btn');
-    const appToast = document.querySelector('.app-toast');
 
     /** TODO: To add debouncer */
-    copyBtn.addEventListener('click', (ev) => {
+    copyBtn.addEventListener('click', debounce((ev) => {
       copyToClipboard(`${entityResultTextarea.value}`);
-      appToast.textContent = 'Copied to clipboard!';
 
-      if (appToast.classList.contains('visible')) {
-        appToast.classList.remove('visible');
-      }
-
-      window.requestAnimationFrame(() => {
-        appToast.classList.add('visible');
-
-        setTimeout(() => {
-          window.requestAnimationFrame(() => appToast.classList.remove('visible'));
-        }, 15e2);
-      });
-    });
+      toggleToast('Copied to clipboard!', true);
+    }, 250));
     entityResultTextarea.addEventListener('pointerover', () => {
       copyBtn.classList.add('visible');
     });

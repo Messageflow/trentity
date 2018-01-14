@@ -75,7 +75,7 @@ const {
  */
 
 /** To generate entity list with replacers */
-void async () => {
+void async function main() {
   const d = await generateEntity([
     [
       'Accessories for car',
@@ -102,7 +102,7 @@ void async () => {
 }();
 
 /** To revert generated entity list */
-void async () => {
+void async function main() {
   const d = await revertEntity('"Accessories for car","accessories for car","accessory for car","access for car","accesory for car","acessory for car","car accessory","accessories for cars","accessories for vehicle","accessories for vehicles","cars accessory","vehicle accessory","vehicles accessory"');
 
   assert(d, [

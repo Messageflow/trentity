@@ -23,7 +23,7 @@ const IGNORE_DIR = [
   `${SRC}/demo`,
   `${SRC}/test`,
 ];
-const BABELRC = {
+const babelRc = (esm: boolean = false) => ({
   presets: [
     [
       'env',
@@ -32,7 +32,7 @@ const BABELRC = {
           node: 'current',
         },
         spec: true,
-        modules: 'commonjs',
+        modules: esm ? false : 'commonjs',
         useBuiltIns: true,
       },
     ],
@@ -63,7 +63,7 @@ const BABELRC = {
       '**/__tests*__/*.spec.js',
     ]
     : [],
-};
+});
 
 gulp.task('lint', () =>
   gulp.src([
@@ -89,7 +89,7 @@ gulp.task('babel', () =>
   gulp.src([
     `${TMP}/**/*.js`,
   ])
-    .pipe(babel(BABELRC))
+    .pipe(babel(babelRc()))
     .pipe(gulp.dest(DIST)));
 
 gulp.task('clean', () => del([
@@ -136,8 +136,9 @@ gulp.task('demo-copy', () => gulp.src([
   .pipe(gulp.dest(`${DIST}/demo`)));
 gulp.task('demo', ['monaco', 'demo:index'], () => gulp.src([
   `${SRC}/demo/**/*.js`,
+  `${TMP}/**/*.js`,
 ])
-  .pipe(babel(BABELRC))
+  .pipe(babel(babelRc(true)))
   .pipe(gulp.dest(`${DIST}/demo`)));
 
 gulp.task('watch', () => {
