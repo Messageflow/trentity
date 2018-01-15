@@ -80,6 +80,11 @@
         display: none !important;
       }
 
+      button {
+        background-color: inherit;
+        border: none;
+      }
+
       .app-header {
         display: flex;
         flex-direction: row;
@@ -208,13 +213,28 @@
 
       .synonyms-counter {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end;
+        flex-direction: column;
 
         color: #3a3a3a;
       }
-      .total-synonyms {
+      .checker-report {
+        display: none;
+        width: 100%;
+      }
+      .collapse-btn.pressed + .checker-report {
+        display: block;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      /* .total-synonyms {
         color: #0070fb;
         font-size: 18px;
         font-weight: 500;
@@ -222,6 +242,16 @@
       }
       .synonyms-limit {
         align-self: flex-end;
+      } */
+
+      .collapse-btn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        height: 48px;
       }
 
       footer {
@@ -279,6 +309,11 @@
         transform: translate3d(0, 0, 0);
       }
 
+      .iron-icon {
+        width: 24px;
+        height: 24px;
+      }
+
       @media screen and (max-width: 440px) {
         .editor-section {
           display: flex;
@@ -327,8 +362,17 @@
           <textarea id="entity-result" cols="30" rows="10" readonly></textarea>
 
           <div class="synonyms-counter">
-            <span class="total-synonyms">0</span>
-            <span class="synonyms-limit">/100</span>
+            <!-- <span class="total-synonyms">0</span>
+            <span class="synonyms-limit">/100</span> -->
+            <button class="collapse-btn">
+              <div>Synonyms checker</div>
+
+              <div class="iron-icon">
+                <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g id="keyboard-arrow-down"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path></g></svg>
+              </div>
+            </button>
+
+            <div class="checker-report"></div>
           </div>
 
           <button class="copy-btn">

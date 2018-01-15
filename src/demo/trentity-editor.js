@@ -107,6 +107,28 @@ function tryJSONParse(content, whichEditor) {
   }
 }
 
+async function tableGenerator(generatedEntityList) {
+  try {
+    if (typeof generatedEntityList !== 'string' || !generatedEntityList.length) {
+      throw new TypeError('generatedEntityList is missing');
+    }
+
+    const tHead = `<tr><th>Reference value</th><th>Total synonyms</th></tr>`;
+    const allSynonymsCountsInRows = generatedEntityList
+      .split(/\r?\n/)
+      .map((n) => {
+        const [refVal, ...synonyms] = n.split(',');
+
+        return `<tr><td>${refVal.replace(/"/gi, '')}</td><td>${synonyms.length}</td></tr>`;
+      });
+
+    return `<table><thead>${tHead}</thead><tbody>${allSynonymsCountsInRows}</tbody></table>`;
+  } catch (e) {
+    throw e;
+  }
+}
+
+/** NOTE: Page setup */
 window.addEventListener('DOMContentLoaded', () => {
   require(['vs/editor/editor.main'], function () {
     const editorConfig = {
@@ -205,7 +227,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.querySelector('.generate-btn');
     const entityResultTextarea = document.querySelector('#entity-result');
     const appToast = document.querySelector('.app-toast');
-    const totalSynonyms = document.querySelector('.total-synonyms');
+    // const totalSynonyms = document.querySelector('.total-synonyms');
+    const checkerReport = document.querySelector('.checker-report');
     let toastTimer = null;
 
     function debounce(fn, delay) {
@@ -254,7 +277,8 @@ window.addEventListener('DOMContentLoaded', () => {
         entityResultTextarea.value = generatedEntityList;
 
         /** FIXME: More robust synonyms counter for each reference value */
-        totalSynonyms.textContent = `${generatedEntityList.split(',').slice(1).length}`;
+        // totalSynonyms.textContent = `${generatedEntityList.split(',').slice(1).length}`;
+        checkerReport.innerHTML = await tableGenerator(generatedEntityList);
 
         window.localStorage.setItem(`${userKey}::synonyms`, synonymsValue);
         window.localStorage.setItem(`${userKey}::replacers`, replacersValue);
@@ -282,6 +306,17 @@ window.addEventListener('DOMContentLoaded', () => {
     entityResultTextarea.addEventListener('pointerout', () => {
       copyBtn.classList.remove('visible');
     });
+
+    /** NOTE: Setup collapse */
+    const collapseBtn = document.querySelector('.collapse-btn');
+
+    collapseBtn.addEventListener('click', debounce((ev) => {
+      if (collapseBtn.classList.contains('pressed')) {
+        collapseBtn.classList.remove('pressed');
+      } else {
+        collapseBtn.classList.add('pressed');
+      }
+    }));
   });
 
 });
