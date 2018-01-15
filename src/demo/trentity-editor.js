@@ -59,14 +59,13 @@ function setupEditor(editor, editorType) {
 }
 
 function copyToClipboard(str) {
-  const listener = e => {
-    e.clipboardData.setData('text/plain', str);
-    e.preventDefault();
-  };
+  document.addEventListener('copy', function copyHandler(ev) {
+    ev.preventDefault();
+    ev.clipboardData.setData('text/plain', str);
 
-  document.addEventListener('copy', listener);
+    document.removeEventListener('copy', copyHandler);
+  });
   document.execCommand('copy');
-  document.removeEventListener('copy', listener);
 }
 
 function getValueFromEditorOrLocalStorage(userKey, editor) {
@@ -206,6 +205,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.querySelector('.generate-btn');
     const entityResultTextarea = document.querySelector('#entity-result');
     const appToast = document.querySelector('.app-toast');
+    const totalSynonyms = document.querySelector('.total-synonyms');
     let toastTimer = null;
 
     function debounce(fn, delay) {
@@ -252,6 +252,9 @@ window.addEventListener('DOMContentLoaded', () => {
         const generatedEntityList = await generateEntity(parsedSynonyms, parsedReplacers);
 
         entityResultTextarea.value = generatedEntityList;
+
+        /** FIXME: More robust synonyms counter for each reference value */
+        totalSynonyms.textContent = `${generatedEntityList.split(',').slice(1).length}`;
 
         window.localStorage.setItem(`${userKey}::synonyms`, synonymsValue);
         window.localStorage.setItem(`${userKey}::replacers`, replacersValue);

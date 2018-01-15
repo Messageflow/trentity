@@ -206,6 +206,24 @@
         width: 100%;
       }
 
+      .synonyms-counter {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+
+        color: #3a3a3a;
+      }
+      .total-synonyms {
+        color: #0070fb;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 28px;
+      }
+      .synonyms-limit {
+        align-self: flex-end;
+      }
+
       footer {
         display: flex;
         flex-direction: row;
@@ -307,6 +325,11 @@
 
         <div class="result-container">
           <textarea id="entity-result" cols="30" rows="10" readonly></textarea>
+
+          <div class="synonyms-counter">
+            <span class="total-synonyms">0</span>
+            <span class="synonyms-limit">/100</span>
+          </div>
 
           <button class="copy-btn">
             <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;"><g class="style-scope iron-icon"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" class="style-scope iron-icon"></path></g></svg>
