@@ -1,7 +1,7 @@
 /** Import other modules */
 import { generateEntity } from '/generate-entity.js';
 
-console.log(
+console.info(
   `✨You\'re now using the %cTrentity %c🔖%s 🔥🔥🔥`,
   'font-size: 20px; color: #0070fb;',
   'font-size: 16px; color: #fb00b7;',
@@ -118,14 +118,42 @@ async function tableGenerator(generatedEntityList) {
       .split(/\r?\n/)
       .map((n) => {
         const [refVal, ...synonyms] = n.split(',');
+        const synonymsLen = synonyms.length;
 
-        return `<tr><td>${refVal.replace(/"/gi, '')}</td><td>${synonyms.length}</td></tr>`;
-      });
+        return `<tr class="${
+          synonymsLen > 100 ? 'error' : ''
+        }"><td>${
+          refVal.replace(/"/gi, '')
+        }</td><td>${
+          synonymsLen
+        }</td></tr>`;
+      })
+      .join('');
 
     return `<table><thead>${tHead}</thead><tbody>${allSynonymsCountsInRows}</tbody></table>`;
   } catch (e) {
     throw e;
   }
+}
+
+function getIcon(iconName) {
+  const svgWrapper = svg => `<svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" class="style-scope iron-icon" style="pointer-events: none; display: block; width: 100%; height: 100%;">${svg}</svg>`;
+  let selectedIcon = '';
+
+  switch (iconName) {
+    case 'check-circle': {
+      selectedIcon = '<g id="check-circle"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></g>';
+      break;
+    }
+    case 'error': {
+      selectedIcon = '<g id="error"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"></path></g>';
+      break;
+    }
+    default:
+      return '';
+  }
+
+  return svgWrapper(selectedIcon);
 }
 
 /** NOTE: Page setup */
@@ -227,8 +255,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const generateBtn = document.querySelector('.generate-btn');
     const entityResultTextarea = document.querySelector('#entity-result');
     const appToast = document.querySelector('.app-toast');
-    // const totalSynonyms = document.querySelector('.total-synonyms');
+    const checkerStatus = document.querySelector('.checker-status');
     const checkerReport = document.querySelector('.checker-report');
+    const synonymsCounter = document.querySelector('.synonyms-counter');
     let toastTimer = null;
 
     function debounce(fn, delay) {
@@ -276,14 +305,49 @@ window.addEventListener('DOMContentLoaded', () => {
 
         entityResultTextarea.value = generatedEntityList;
 
-        /** FIXME: More robust synonyms counter for each reference value */
-        // totalSynonyms.textContent = `${generatedEntityList.split(',').slice(1).length}`;
+        /** NOTE: Display the status (total synonyms) of each reference value */
+        const outOfBoundEntities = generatedEntityList
+          .split(/\r?\n/)
+          .reduce((p, n) => {
+            const [refVal, ...synonyms] = n.split(',');
+            const synonymsLen = synonyms.length;
+
+            return {
+              total: (p.total || 0) + 1,
+              outOfBound: synonymsLen > 100 ? (p.outOfBound || 0) + 1 : p.outOfBound,
+            };
+          }, {
+            outOfBound: 0,
+            total: 0,
+          });
+
+        checkerStatus.innerHTML = `<div class="${
+          [
+            'iron-icon',
+            outOfBoundEntities.outOfBound > 0 ? 'error' : ''
+          ].join(' ').trim()
+        }">${
+          getIcon(
+            outOfBoundEntities.outOfBound > 0
+              ? 'error'
+              : 'check-circle'
+          )
+        }</div><span class="${
+          outOfBoundEntities.outOfBound > 0 ? 'error' : ''
+        }">${
+          outOfBoundEntities.total - outOfBoundEntities.outOfBound
+        }/ ${
+          outOfBoundEntities.total
+        }</span>`;
         checkerReport.innerHTML = await tableGenerator(generatedEntityList);
 
         window.localStorage.setItem(`${userKey}::synonyms`, synonymsValue);
         window.localStorage.setItem(`${userKey}::replacers`, replacersValue);
 
         toggleToast('Result generated!', true);
+
+        /** NOTE: Show synonyms checker */
+        synonymsCounter.removeAttribute('hidden');
       } catch (e) {
         console.debug(e);
 
@@ -294,7 +358,6 @@ window.addEventListener('DOMContentLoaded', () => {
     /** NOTE: Setup clipboard */
     const copyBtn = document.querySelector('.copy-btn');
 
-    /** TODO: To add debouncer */
     copyBtn.addEventListener('click', debounce((ev) => {
       copyToClipboard(`${entityResultTextarea.value}`);
 
