@@ -59,12 +59,11 @@ function setupEditor(editor, editorType) {
 }
 
 function copyToClipboard(str) {
-  document.addEventListener('copy', function copyHandler(ev) {
-    ev.preventDefault();
-    ev.clipboardData.setData('text/plain', str);
-
-    document.removeEventListener('copy', copyHandler);
-  });
+  document.addEventListener('copy', function copyHandler (event){
+    event.clipboardData.setData('text/plain', str);
+    event.preventDefault();
+    document.removeEventListener('copy', copyHandler, true);
+  }, true);
   document.execCommand('copy');
 }
 
@@ -356,19 +355,22 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 250));
 
     /** NOTE: Setup clipboard */
-    const copyBtn = document.querySelector('.copy-btn');
+    const isCopySupported = document.execCommand('copy');
+    if (isCopySupported) {
+      const copyBtn = document.querySelector('.copy-btn');
 
-    copyBtn.addEventListener('click', debounce((ev) => {
-      copyToClipboard(`${entityResultTextarea.value}`);
+      copyBtn.addEventListener('click', debounce((ev) => {
+        copyToClipboard(`${entityResultTextarea.value}`);
 
-      toggleToast('Copied to clipboard!', true);
-    }, 250));
-    entityResultTextarea.addEventListener('pointerover', () => {
-      copyBtn.classList.add('visible');
-    });
-    entityResultTextarea.addEventListener('pointerout', () => {
-      copyBtn.classList.remove('visible');
-    });
+        toggleToast('Copied to clipboard!', true);
+      }, 250));
+      entityResultTextarea.addEventListener('pointerover', () => {
+        copyBtn.classList.add('visible');
+      });
+      entityResultTextarea.addEventListener('pointerout', () => {
+        copyBtn.classList.remove('visible');
+      });
+    }
 
     /** NOTE: Setup collapse */
     const collapseBtn = document.querySelector('.collapse-btn');
